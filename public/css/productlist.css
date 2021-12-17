@@ -1,0 +1,40 @@
+.shop-sidebar-heading {
+    background-color: var(--primary);
+    font-size: 18px;
+    line-height: 50px;
+    color: var(--white);
+}
+
+.page-nav .disabled{
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.page-nav a{
+    background-color: var(--white);
+    color: var(--primary);
+    border: solid 1px var(--primary);
+    padding: 0.5rem 1rem;
+    margin: 0.3rem;
+}
+
+.page-nav .active{
+    background-color: var(--primary);
+    color: var(--white);
+}
+.page-nav a:hover{
+    background-color: var(--primary);
+    color: var(--white);
+    transition: all 0.3s;
+}
+
+.page-nav .direct{
+    border: solid 1px var(--white);
+    color: var(--black);
+    background-color: var(--white);
+}
+
+.page-nav .direct:hover{
+    color: var(--primary);
+    background-color: var(--white);
+}
