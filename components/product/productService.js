@@ -17,11 +17,13 @@ const all = (page = 0, perPage = 9) => {
         {
             model: models.product_image,
             as: 'product_images',
-            attributes: ['image_url']
+            attributes: ['image_url'],
+            duplicating: false,
         }],
         offset: page * perPage,
         limit: perPage,
-        raw: true
+        raw: true,
+        group: ['product.id']
     });
 }
 
