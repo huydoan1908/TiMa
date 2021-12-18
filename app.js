@@ -11,6 +11,7 @@ const app = express();
 
 // require Router
 const indexRouter = require('./routes/index');
+const productRouter = require('./components/product');
 
 // view engine setup
 app.set('views', [
@@ -21,8 +22,8 @@ app.set('view engine', 'hbs');
 
 hbs.registerPartials(__dirname + '/views/partials', function (err) { });
 // load helpers
-// const { helpers } = require('./view/hbsHelpers');
-// helpers(hbs);
+const { helpers } = require('./views/hbsHelpers');
+helpers(hbs);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -51,6 +52,7 @@ app.use((req, res, next) => {
 
 //Route
 app.use('/', indexRouter);
+app.use('/product', productRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
