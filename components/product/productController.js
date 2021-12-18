@@ -32,7 +32,46 @@ const detail = async (req, res) => {
     }
 };
 
+const addRate = async (req, res) => {
+    try {
+        const { rate, content } = req.body;
+        const userId = req.user.id;
+        const productId = req.params.id;
+        const newRating = await service.addRate({ userId, productId, rate, content });
+        res.status(201).json(newRating);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
+const getRate = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        console.log(req.query);
+        const page = !Number.isNaN(req.query.page) && req.query.page > 0 ? Number.parseInt(req.query.page) : 1;
+        const limit = !Number.isNaN(req.query.size) && req.query.size > 0 ? Number.parseInt(req.query.size) : 3;
+        const offset = page == 1 ? 0 : (page-1) * limit;
+        const rates = await service.getRate(productId, offset, limit);
+        const totalPages = Math.ceil(rates.count / limit);
+        const response = {
+            "totalPages": totalPages,
+            "pageNumber": page,
+            "pageSize": rates.rows.length,
+            "rates": rates.rows
+        }
+        res.status(201).json(response);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
+
 module.exports = {
     list,
-    detail
+    detail,
+    addRate,
+    getRate,
 }

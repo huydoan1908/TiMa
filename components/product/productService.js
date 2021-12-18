@@ -91,11 +91,42 @@ const size = id => {
     })
 }
 
+const addRate = ({userId, productId, rate, content}) =>{
+    return models.feedback.create({
+        'customer_id': userId,
+        'product_id': productId,
+        rate,
+        content,
+        'created_at': Date.now()
+    })
+}
+
+const getRate = (productId, offset, limit) => {
+    return models.feedback.findAndCountAll({
+        raw: true,
+        offset,
+        limit,
+        order: [
+            ['created_at', 'DESC']
+        ],
+        where:{
+            'product_id': productId
+        },
+        include: {
+            model: models.customer,
+            as:'customer',
+            attributes: ['first_name','last_name','avatar']
+        }
+    })
+}
+
 module.exports = {
     all,
     category,
     byCategory,
     topRate,
     detail,
-    size
+    size,
+    addRate,
+    getRate,
 }
