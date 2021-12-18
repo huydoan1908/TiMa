@@ -10,19 +10,29 @@ const list = async (req,res) => {
     res.render('product/productList', { title: 'Shop', products, category, page, catOption});
 }
 
-const detail = async (req,res) => {
-    const [detail, topRate, size] = await 
-        Promise.all([
-            service.detail(req.params.id), 
-            service.topRate(), 
-            service.size(req.params.id)
+const detail = async (req, res) => {
+    try {
+        const [detail, size, image] = await Promise.all([
+            service.detail(req.params.id),
+            service.size(req.params.id),
+            service.image(req.params.id)
         ]);
-        
-    res.render('product/productDetail', { title: detail.name, detail, topRate, size});
-}
+        const related = await service.byCategory(detail['category_id']);
+        res.render('product/productDetail', {
+            title: detail.name,
+            style: 'detail.css',
+            scripts: ['productRate.js'],
+            detail,
+            related: related.rows,
+            size,
+            image
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
 
 module.exports = {
     list,
     detail
 }
-
