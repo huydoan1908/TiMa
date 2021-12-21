@@ -1,8 +1,9 @@
+const { Op } = require('sequelize');
 const { models } = require('../../model');
 
 const getCartById = id => {
     return models.cart.findAll({
-        raw: true, 
+        raw: true,
         where: {
             'customer_id': id
         },
@@ -17,10 +18,61 @@ const getCartById = id => {
                 duplicating: false,
             }],
         }],
-        group: ['product.id']            
+        group: ['product.id', 'size']
     })
 }
 
+const findInCart = (userId, productId, size) => {
+    return models.cart.findOne({
+        where: {
+            [Op.and]: [
+                { 'customer_id': userId },
+                { 'product_id': productId },
+                { size }
+            ]
+        },
+        raw: true
+    })
+}
+const addToCart = (userId, productId, size, quantity, total) => {
+    return models.cart.create({
+        'customer_id': userId,
+        'product_id': productId,
+        size,
+        quantity,
+        total,
+    });
+}
+const updateCart = (userId, productId, size, quantity, total) => {
+    return models.cart.update({
+        quantity,
+        total,
+    }, {
+        where: {
+            [Op.and]: [
+                { 'customer_id': userId },
+                { 'product_id': productId },
+                { size }
+            ]
+        }
+    });
+}
+
+const deleteFromCart = (userId, productId, size) => {
+    return models.cart.destroy({
+        where: {
+            [Op.and]: [
+                { 'customer_id': userId },
+                { 'product_id': productId },
+                { size }
+            ]
+        }
+    })
+}
 module.exports = {
-    getCartById
+    getCartById,
+    findInCart,
+    addToCart,
+    updateCart,
+    deleteFromCart
 }
