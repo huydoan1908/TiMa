@@ -27,6 +27,43 @@ const all = (page = 0, perPage = 9) => {
     });
 }
 
+const byKeyword = (keyword, page = 0, perPage = 9) => {
+    return models.product.findAndCountAll({
+        include: [{
+            model: models.category,
+            as: 'category',
+            attributes: ['name']
+        },
+        {
+            model: models.product_image,
+            as: 'product_images',
+            attributes: ['image_url'],
+            duplicating: false,
+        }],
+        offset: page * perPage,
+        limit: perPage,
+        raw: true,
+        group: ['product.id'],
+        where: {
+            [Op.or]: [
+                {
+                    name: {
+                        [Op.like]: `%${keyword}%`
+                    }
+                }, {
+                    price: {
+                        [Op.like]: `%${keyword}%`
+                    }
+                }, {
+                    '$category.name$': {
+                        [Op.like]: `%${keyword}%`
+                    }
+                }
+            ]
+        }
+    });
+}
+
 const byCategory = (id, page = 0, perPage = 9) => {
     return models.product.findAndCountAll({
         include: [{
@@ -145,5 +182,6 @@ module.exports = {
     size,
     image,
     addRate,
-    getRate
+    getRate,
+    byKeyword
 }
