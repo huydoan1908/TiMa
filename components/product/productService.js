@@ -27,12 +27,12 @@ const all = (page = 0, perPage = 9) => {
     });
 }
 
-const byKeyword = (keyword, page = 0, perPage = 9) => {
+const byKeyword = (category,keyword, page = 0, perPage = 9) => {
     return models.product.findAndCountAll({
         include: [{
             model: models.category,
             as: 'category',
-            attributes: ['name']
+            attributes: ['name',"id"]
         },
         {
             model: models.product_image,
@@ -45,6 +45,11 @@ const byKeyword = (keyword, page = 0, perPage = 9) => {
         raw: true,
         group: ['product.id'],
         where: {
+            [Op.and]:[
+                {
+                    category_id: category
+                }
+            ],
             [Op.or]: [
                 {
                     name: {

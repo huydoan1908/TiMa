@@ -18,15 +18,18 @@ const search = async (req, res) => {
         const page = !Number.isNaN(req.query.page) && req.query.page > 0 ? Number.parseInt(req.query.page) : 1; 
         const keyword = req.query.keyword;
         const catOption = !Number.isNaN(req.query.category) && req.query.category > 0 ? Number.parseInt(req.query.category) : 0;
-        console.log(keyword);
+        console.log(req.query);
     
         //request from dtb
         const category = await service.category();
-        const products = await service.byKeyword(keyword, page - 1);
+        
+        const products = await service.byKeyword(catOption,keyword, page - 1);
+        
+        console.log(products);
         res.render('product/productList', { title: 'Shop', products, category, page, catOption, keyword });
     }
     catch (err) {
-
+        console.log(err);
     }
 }
 
