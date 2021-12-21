@@ -21,7 +21,7 @@ const detail = async (req, res) => {
         res.render('product/productDetail', {
             title: detail.name,
             style: 'detail.css',
-            scripts: ['productRate.js'],
+            scripts: ['productRate.js', 'addToCart.js'],
             detail,
             related: related.rows,
             size,
