@@ -2,6 +2,11 @@
   padding: 2rem 0;
 }
 
+.avatar {
+  width: 15%;
+  padding-right: 1rem;
+}
+
 .detail .text-detail .price {
   color: var(--primary);
 }
@@ -9,19 +14,6 @@
 .detail .text-detail .description {
   border-top: dotted 0.5px var(--cream);
   border-bottom: dotted 0.5px var(--cream);
-}
-
-.detail .text-detail .product-count input {
-  width: 60px;
-}
-
-.detail .text-detail .product-count button {
-  padding: 0 0.5rem;
-  border: none;
-}
-
-.detail .text-detail .product-count button:hover {
-  background-color: #ddd;
 }
 
 .detail .text-detail .product-count a {
@@ -39,17 +31,6 @@
   color: var(--primary);
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-}
-
-.detail .text-detail .favorite i {
-  padding: 1rem;
-  background-color: #ddd;
-}
-
-.detail .text-detail .favorite i:hover {
-  background-color: var(--white);
-  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .rating .nav {
@@ -80,16 +61,8 @@
   color: var(--grey);
 }
 
-.rating .tab-content .table {
-  width: 100%;
-}
-
 .rating .tab-content .table td {
   padding: 0.5rem 2rem;
-}
-
-#review i {
-  color: #fbd600;
 }
 
 #review .overall {
@@ -106,31 +79,14 @@
   font-weight: bolder;
 }
 
-#review .rate{
+#review .rate-overall{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-#review .rate li {
-  padding: 0.1rem;
-}
-
-#review .rate i:first-child {
-  margin-left: 1rem;
-}
-
-#review .rate i:last-child {
-  margin-right: 1rem;
-}
-
-#review .review-item {
-  margin: 2rem 0;
-}
-
-#review .review-item .avatar {
-  width: 15%;
-  padding-right: 1rem;
+#review .review-item{
+  margin-bottom: 1rem;
 }
 
 #review .review-item .info {

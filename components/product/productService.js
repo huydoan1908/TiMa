@@ -43,10 +43,12 @@ const byCategory = (id, page = 0, perPage = 9) => {
         {
             model: models.product_image,
             as: 'product_images',
-            attributes: ['image_url']
+            attributes: ['image_url'],
+            duplicating: false,
         }],
         offset: page * perPage,
         limit: perPage,
+        group: ['product.id'],
         raw: true
     });
 }
@@ -62,9 +64,13 @@ const topRate = () => {
             'rate': 5
         },
         limit: 9,
+        duplicating: false,
+        required: true,
+        group: ['product.id'],
         raw: true
     });
 }
+
 const detail = id => {
     return models.product.findByPk(id, {
         include: [{
@@ -75,7 +81,8 @@ const detail = id => {
         {
             model: models.product_image,
             as: 'product_images',
-            attributes: ['image_url']
+            attributes: ['image_url'],
+            duplicating: false
         }],
         raw: true
     })
@@ -84,14 +91,23 @@ const detail = id => {
 const size = id => {
     return models.product_size.findAll({
         where: {
-            'product_id': id
+            'product_id': id,
+            quantity: { [Op.not]: 0 }
         },
         attributes: ['size', 'quantity'],
         raw: true
     })
 }
 
-const addRate = ({userId, productId, rate, content}) =>{
+const image = id => {
+    return models.product_image.findAll({
+        raw: true,
+        where: { 'product_id': id },
+        offset: 1
+    })
+}
+
+const addRate = ({ userId, productId, rate, content }) => {
     return models.feedback.create({
         'customer_id': userId,
         'product_id': productId,
@@ -109,13 +125,13 @@ const getRate = (productId, offset, limit) => {
         order: [
             ['created_at', 'DESC']
         ],
-        where:{
+        where: {
             'product_id': productId
         },
         include: {
             model: models.customer,
-            as:'customer',
-            attributes: ['first_name','last_name','avatar']
+            as: 'customer',
+            attributes: ['first_name', 'last_name', 'avatar']
         }
     })
 }
@@ -127,6 +143,7 @@ module.exports = {
     topRate,
     detail,
     size,
+    image,
     addRate,
-    getRate,
+    getRate
 }

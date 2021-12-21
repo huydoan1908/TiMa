@@ -26,11 +26,14 @@ header {
     left: 0;
     z-index: 10;
 }
+.text-primary{
+    color: var(--primary);
+}
 .navbar-brand {
     font-size: 2rem;
 }
 .btn {
-    padding: 10px 45px;
+    padding: 0.5rem 2rem;
     border: 1px solid var(--primary);
     background-color: var(--primary);
     font-weight: 500;
@@ -40,19 +43,47 @@ header {
     background-color: var(--white);
     color: var(--primary) !important;
 }
-.delete-btn{
-    padding: .2rem .4rem;
+.delete-btn {
+    padding: 0.2rem 1rem;
     line-height: 100%;
     border-radius: 5px;
-    border: 1px solid #DC3545;
-    background-color: #DC3545;
+    border: 1px solid #dc3545;
+    background-color: #dc3545;
     font-weight: 500;
     color: var(--white) !important;
 }
-.delete-btn:hover{
-    color: #DC3545!important;
+.delete-btn:hover {
+    color: #dc3545 !important;
     font-weight: 500;
-    background-color: var(--white); 
+    background-color: var(--white);
+}
+.blue-btn{
+    padding: 0.2rem 1rem;
+    line-height: 100%;
+    border-radius: 5px;
+    border: 1px solid #0DCAF0;
+    background-color: #0DCAF0;
+    font-weight: 500;
+    color: var(--white);
+}
+.blue-btn:hover{
+    color: #0DCAF0 !important;
+    font-weight: 500;
+    background-color: var(--white);
+}
+.gray-btn {
+    padding: 0.5rem 2rem;
+    background: var(--cream);
+    border: 1px solid var(--cream);
+    border-radius: 30px;
+    color: var(--black);
+    text-transform: capitalize;
+    font-weight: 500;
+}
+.gray-btn:hover {
+    background: var(--grey);
+    color: var(--white);
+    transition: all 0.3s;
 }
 .nav-btn {
     border: 1px solid #ddd;
@@ -68,6 +99,10 @@ header {
     color: #f44336;
     border-radius: 0.25rem;
     padding: 0.5rem;
+}
+.fa-star {
+    color: #FBD600;
+    font-size: 1rem;
 }
 .form-group {
     margin-bottom: 1rem;
@@ -102,23 +137,24 @@ header {
 }
 .shop-section {
     margin-top: 120px;
+    margin-bottom: 50px;
 }
-.product-overlay {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 30px 5px;
-    background-color: rgba(255, 255, 255, 0.5);
-    opacity: 0;
+.product-img img {
     transition: 0.3s ease;
-    z-index: -1;
-    transform: translateY(30px);
+}
+.product-card:hover {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 .product-card:hover .product-overlay {
     opacity: 1;
     z-index: 1;
     transform: translateY(0);
+}
+.product-img {
+    overflow: hidden;
+}
+.product-card:hover .product-img img {
+    transform: scale(1.05);
 }
 .product-icon {
     padding: 7px 12px;
@@ -151,6 +187,7 @@ header {
     position: relative;
     top: 70px;
 }
+
 @media screen and (max-width: 767px) {
     .btn {
         padding: 8px 25px !important;
