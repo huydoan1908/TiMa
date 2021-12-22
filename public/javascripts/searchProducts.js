@@ -1,4 +1,5 @@
 
+
 $(document).ready(function() {
     $("#searchBtn").on('click', ()=>{
     let catOption = $("input[name=category]:checked", "#categoryForm");
@@ -21,5 +22,19 @@ $(document).ready(function() {
         $("input[name=category]", "#searchForm").val(value);
     }
     form.submit();
+    })
+
+     $("input[name=category]", "#categoryForm").on('click',(event)=>{
+      //  window.location = "?category={{id}}";
+    let url = window.location.href;
+    let value = event.target.value;
+    if(value != 0){
+        window.location.assign(
+          `/product?category=${value}`
+        );
+    }
+    else{
+      window.location.assign(`/product`);
+    }
     })
 });

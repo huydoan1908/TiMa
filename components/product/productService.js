@@ -49,22 +49,22 @@ const byKeyword = (category,keyword, page = 0, perPage = 9) => {
                 {
                     category_id: category
                 }
-            ],
-            [Op.or]: [
+            ,
+            {[Op.or]: [
                 {
                     name: {
-                        [Op.like]: `%${keyword}%`
+                        [Op.substring]: `${keyword}`
                     }
                 }, {
                     price: {
-                        [Op.like]: `%${keyword}%`
+                        [Op.substring]: `${keyword}`
                     }
                 }, {
                     '$category.name$': {
-                        [Op.like]: `%${keyword}%`
+                        [Op.substring]: `${keyword}`
                     }
                 }
-            ]
+            ]}],
         }
     });
 }
