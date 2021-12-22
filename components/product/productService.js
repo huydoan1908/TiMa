@@ -27,6 +27,64 @@ const all = (page = 0, perPage = 9) => {
     });
 }
 
+const byKeyword = (category, keyword, page = 0, perPage = 9) => {
+    console.log(category)
+    console.log(keyword)
+    return models.product.findAndCountAll({
+        include: [{
+            model: models.category,
+            as: 'category',
+            attributes: ['name',"id"]
+        },
+        {
+            model: models.product_image,
+            as: 'product_images',
+            attributes: ['image_url'],
+            duplicating: false,
+        }],
+        offset: page * perPage,
+        limit: perPage,
+        raw: true,
+        group: ['product.id'],
+        where: {
+            [Op.and]:[
+                {
+                    [Op.or]: [
+                        {
+                            category_id: {
+                                [Op.like]: `%${category}%`
+                            }
+                            
+                        }, {
+                            '$category.parent_id$': {
+                                [Op.like]: `%${category}%`
+                            }
+                        }
+                    ]
+                }
+            ,
+                {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${keyword}%`
+                            }
+                        }, {
+                            price: {
+                                [Op.like]: `%${keyword}%`
+                            }
+                        }, {
+                            '$category.name$': {
+                                [Op.like]: `%${keyword}%`
+                            }
+                        }
+                    ]
+                }
+            ],
+        }
+    });
+}
+
 const byCategory = (id, page = 0, perPage = 9) => {
     return models.product.findAndCountAll({
         include: [{
@@ -145,5 +203,6 @@ module.exports = {
     size,
     image,
     addRate,
-    getRate
+    getRate,
+    byKeyword
 }
