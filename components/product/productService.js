@@ -27,7 +27,9 @@ const all = (page = 0, perPage = 9) => {
     });
 }
 
-const byKeyword = (category,keyword, page = 0, perPage = 9) => {
+const byKeyword = (category, keyword, page = 0, perPage = 9) => {
+    console.log(category)
+    console.log(keyword)
     return models.product.findAndCountAll({
         include: [{
             model: models.category,
@@ -47,24 +49,38 @@ const byKeyword = (category,keyword, page = 0, perPage = 9) => {
         where: {
             [Op.and]:[
                 {
-                    category_id: category
+                    [Op.or]: [
+                        {
+                            category_id: {
+                                [Op.like]: `%${category}%`
+                            }
+                            
+                        }, {
+                            '$category.parent_id$': {
+                                [Op.like]: `%${category}%`
+                            }
+                        }
+                    ]
                 }
             ,
-            {[Op.or]: [
                 {
-                    name: {
-                        [Op.substring]: `${keyword}`
-                    }
-                }, {
-                    price: {
-                        [Op.substring]: `${keyword}`
-                    }
-                }, {
-                    '$category.name$': {
-                        [Op.substring]: `${keyword}`
-                    }
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${keyword}%`
+                            }
+                        }, {
+                            price: {
+                                [Op.like]: `%${keyword}%`
+                            }
+                        }, {
+                            '$category.name$': {
+                                [Op.like]: `%${keyword}%`
+                            }
+                        }
+                    ]
                 }
-            ]}],
+            ],
         }
     });
 }

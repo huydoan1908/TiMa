@@ -142,9 +142,6 @@ header {
 .product-img img {
     transition: 0.3s ease;
 }
-.product-card:hover {
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-}
 .product-card:hover .product-overlay {
     opacity: 1;
     z-index: 1;

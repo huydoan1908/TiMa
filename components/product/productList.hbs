@@ -50,24 +50,7 @@
                         <div class="col-sm-6 col-lg-4">
                             <div class="product-card text-center mb-4">
                                 <div class="product-img position-relative">
-                                    <img src={{'product_images.image_url'}} alt="">
-                                    <ul class="product-overlay text-center d-flex justify-content-center">
-                                        <li class="me-1">
-                                            <a href="#" class="product-icon">
-                                                <i class="bi bi-search"></i>
-                                            </a>
-                                        </li>
-                                        <li class="me-1">
-                                            <a href="#" class="product-icon">
-                                                <i class="bi bi-cart3"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="product-icon">
-                                                <i class="bi bi-heart"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <img src={{'product_images.image_url'}} alt="...">
                                 </div>
                                 <div class="product-info">
                                     <p>{{'category.name'}}</p>
@@ -81,7 +64,7 @@
                 </div>
                 <div class="offset-xl-3 offset-lg-4 offset-md-5 col-xl-9 col-lg-8 col-md-7 page-nav d-flex justify-content-center">
                     <ul class="d-flex">
-                        {{#page products.count page catOption}}
+                        {{#page products.count.length page catOption}}
                         {{/page}}
                     </ul>
                 </div>
