@@ -3,16 +3,19 @@ const helpers = (hbs) => {
         console.log(options.fn(this));
         return null;
     })
-    hbs.registerHelper('page', (num, page, category) => {
+    hbs.registerHelper('page', (num, page, url) => {
+        url = url.includes("page") ? url.substring(0, url.indexOf("page") - 1) : url;
+        const urlTerm = url === "/" ? "?" : `${url.substring(1)}&`;
+
         const maxPage = Math.ceil((num / 9));
         //First item
         var item = `<li><a class="direct ${page == 1 ? "disabled" : ""}" 
-        href="${category == 0 ? "/product" : `?category=${category}`}">
+        href="${urlTerm}page=1">
             <i class="fas fa-angle-double-left"></i>
         </a></li>\n`;
         //Previous item       
         item += `<li><a class="direct ${page == 1 ? "disabled" : ""}" 
-                        href="?${category == 0 ? "" : `category=${category}&`}page=${page - 1}">
+                        href="${urlTerm}page=${page - 1}">
                             <i class="fas fa-caret-left"></i>
                         </a></li>\n`;
 
@@ -24,23 +27,23 @@ const helpers = (hbs) => {
             item += `<li>
                         ${i == page ?
                     `<a class="active disabled" 
-                                href="?${category == 0 ? "" : `category=${category}&`}page=${i}">
+                                href="${urlTerm}page=${i}" >
                                 ${i}
                             </a>`
-                    : `<a href="?${category == 0 ? "" : `category=${category}&`}page=${i}">
+                    : `<a href="${urlTerm}page=${page + 1}">
                                 ${i}
                             </a>`}
                     </li>\n`;
         }
         //... item
         item += i <= maxPage ? `<li><a class="disabled" href="#">...</a></li>` : "";
-        item += `<li><a class="direct ${page == maxPage ? "disabled" : ""}" 
-                        href="?${category == 0 ? "" : `category=${category}&`}page=${page + 1}">
+        item += `<li><a class="direct ${(page == maxPage|| maxPage == 0) ? "disabled" : ""}" 
+                        href="${urlTerm}page=${page + 1}">
                             <i class="fas fa-caret-right"></i>
                         </a></li>\n`;
 
-        item += `<li><a class="direct ${page == maxPage ? "disabled" : ""}" 
-        href="?${category == 0 ? "" : `category=${category}&`}page=${maxPage}">
+        item += `<li><a class="direct ${(page == maxPage || maxPage == 0)  ? "disabled" : ""}" 
+        href="${urlTerm}page=${maxPage}">
             <i class="fas fa-angle-double-right"></i>
         </a></li>\n`;
         return item;
