@@ -2,7 +2,12 @@
 
 $(document).ready(function() {
   // click search
-    $("#searchBtn").on('click', ()=>{
+    $("#searchBtn").on('click', (event)=>{
+    let keyword = $("#shop-search").val();
+    if(keyword === ''){
+      $("#shop-search").prop('disabled',true);
+
+    }
     let catOption = $("input[name=category]:checked", "#categoryForm");
 
     console.log(catOption.val());
@@ -37,6 +42,7 @@ $(document).ready(function() {
             .attr({
               name: "category",
               value: value,
+              display: "none",
             })
             .appendTo(form);
         } else {

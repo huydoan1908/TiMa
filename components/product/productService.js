@@ -28,7 +28,8 @@ const all = (page = 0, perPage = 9) => {
 }
 
 const byKeyword = (category, keyword, page = 0, perPage = 9) => {
-    console.log(category)
+    
+    console.log(category);
     console.log(keyword)
     return models.product.findAndCountAll({
         include: [{
@@ -67,7 +68,7 @@ const byKeyword = (category, keyword, page = 0, perPage = 9) => {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${keyword}%`
+                                [Op.like]: `N%${keyword}%`
                             }
                         }, {
                             price: {
