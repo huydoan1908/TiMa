@@ -2,13 +2,21 @@ $(document).ready(() => {
     //Update Cart
     $('#update-cart').on('click', async e => {
         const data = [];
+        let isValid = true;
         $.each($('.table tbody tr'), function (i, item) {
             const productId = item.querySelector('input[type=hidden]').value;
             const quantity = parseInt(item.querySelector('input[type=number]').value);
+            if (quantity <= 0) {
+                const failed = document.getElementById('failed-toast');
+                const toast = new bootstrap.Toast(failed);
+                toast.show();
+                isValid = false;
+                return;
+            }
             const size = item.querySelector('.size').innerText;
             let price = item.querySelector('h5').innerText;
-            price = reverseFormatNumber(price,'vi-VN');
-            const total = quantity*price;
+            price = reverseFormatNumber(price, 'vi-VN');
+            const total = quantity * price;
             data.push({
                 productId,
                 size,
@@ -16,6 +24,8 @@ $(document).ready(() => {
                 total
             });
         });
+        if (!isValid)
+            return;
         const request = {
             method: 'POST',
             headers: {
@@ -32,7 +42,7 @@ $(document).ready(() => {
     //Delete from cart
     $(document).on('click', '.delete-btn', async e => {
         const row = getParentElement(e.target, 'tr');
-        const productId = row.querySelector('input[type=hidden]').value;        
+        const productId = row.querySelector('input[type=hidden]').value;
         const size = row.querySelector('.size').innerText;
         const request = {
             method: 'POST',
@@ -55,9 +65,9 @@ function reverseFormatNumber(val, locale) {
         .replace(new RegExp('\\' + decimalSeparator), '.'));
 }
 
-function getParentElement(child, selector){
-    while(child.parentElement){
-        if(child.parentElement.matches(selector))
+function getParentElement(child, selector) {
+    while (child.parentElement) {
+        if (child.parentElement.matches(selector))
             return child.parentElement;
         child = child.parentElement;
     }

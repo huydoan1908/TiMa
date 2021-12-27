@@ -1,9 +1,15 @@
 $(document).ready(() => {
     $('#add-cart').on('click', async e => {
+        const size = $('#size').val();
+        const quantity = parseInt($('#qty').val());
+        if(!size || quantity <= 0){
+            const failed = document.getElementById('failed-toast');
+            const toast = new bootstrap.Toast(failed);
+            toast.show();
+            return;
+        }
         const productId = $('.text-detail input[type=hidden]').val();
         const price = reverseFormatNumber($('#price').text(), 'vi-VN');
-        const quantity = parseInt($('#qty').val());
-        const size = $('#size').val();
         const total = price * quantity;
         const request = {
             method: 'POST',
