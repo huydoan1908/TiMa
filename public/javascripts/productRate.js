@@ -49,7 +49,8 @@ async function loadRate(page, size) {
         $.each(data.rates, function (index, item) {
             appendRate(item);
         });
-        $('#total-rate').text(`(${data.total} Reviews)`)
+        $('.overall h1').text(data.overall.toFixed(1));
+        $('.overall p').text(`(${data.total} Reviews)`);
         if ($('ul.pagination li').length - 2 != data.totalPages) {
             $('ul.pagination').empty();
             buildPagination(data.totalPages);
