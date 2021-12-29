@@ -25,12 +25,12 @@ const helpers = (hbs) => {
         //Page items
         for (; i <= page + 1 && i <= maxPage; i++) {
             item += `<li>
-                        ${i == page ?
+                        ${i == page  ?
                     `<a class="active disabled" 
                                 href="${urlTerm}page=${i}" >
                                 ${i}
                             </a>`
-                    : `<a href="${urlTerm}page=${page + 1}">
+                    : `<a href="${urlTerm}page=${i}">
                                 ${i}
                             </a>`}
                     </li>\n`;
