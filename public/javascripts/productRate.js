@@ -4,6 +4,18 @@ $(document).ready(()=>{
         e.preventDefault();
         const rate = $('input[type=hidden][name=rate]').val();
         const content = $('input[name=content]').val();
+        const format=/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        const lengthToast=document.getElementById('review-length-noti-toast');
+        const specialToast=document.getElementById('review-special-char-toast');
+        if(content.length>255){
+            const toast=new bootstrap.Toast(lengthToast);
+            toast.show();
+            return;
+        }else if(format.test(content)){
+            const toast=new bootstrap.Toast(specialToast);
+            toast.show();
+            return;
+        }
         const request = {
             method: 'POST',
             headers: {
@@ -37,7 +49,8 @@ async function loadRate(page, size) {
         $.each(data.rates, function (index, item) {
             appendRate(item);
         });
-        $('#total-rate').text(`(${data.total} Reviews)`)
+        $('.overall h1').text(data.overall.toFixed(1));
+        $('.overall p').text(`(${data.total} Reviews)`);
         if ($('ul.pagination li').length - 2 != data.totalPages) {
             $('ul.pagination').empty();
             buildPagination(data.totalPages);

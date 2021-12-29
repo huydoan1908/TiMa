@@ -50,8 +50,11 @@ const addRate = async (req, res) => {
         const userId = req.user.id;
         const productId = req.params.id;
         const newRating = await service.addRate({ userId, productId, rate, content });
+        const avg = await service.getAVGRate(productId);
+        await service.updateProductRate(avg.avgRate, productId);
         res.status(201).json(newRating);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             message: error.message
         })
@@ -61,19 +64,21 @@ const addRate = async (req, res) => {
 const getRate = async (req, res) => {
     try {
         const productId = req.params.id;
-        console.log(req.query);
+        const product = await service.detail(productId);
         const page = !Number.isNaN(req.query.page) && req.query.page > 0 ? Number.parseInt(req.query.page) : 1;
         const limit = !Number.isNaN(req.query.size) && req.query.size > 0 ? Number.parseInt(req.query.size) : 3;
         const offset = page == 1 ? 0 : (page-1) * limit;
         const rates = await service.getRate(productId, offset, limit);
         const totalPages = Math.ceil(rates.count / limit);
         const response = {
-            "totalPages": totalPages,
-            "pageNumber": page,
-            "pageSize": rates.rows.length,
-            "rates": rates.rows
+            total: rates.count,
+            totalPages,
+            pageNumber: page,
+            pageSize: rates.rows.length,
+            rates: rates.rows,
+            overall: product.rate,
         }
-        res.status(201).json(response);
+        res.status(200).json(response);
     } catch (error) {
         res.status(500).json({
             message: error.message
