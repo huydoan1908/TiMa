@@ -220,6 +220,7 @@ module.exports = {
     all,
     category,
     byCategory,
+    byKeyword,
     topRate,
     detail,
     size,
