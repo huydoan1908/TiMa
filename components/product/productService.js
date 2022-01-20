@@ -69,7 +69,7 @@ const byKeyword = (category, keyword, page = 0, perPage = 9) => {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `N%${keyword}%`
+                                [Op.like]: `%${keyword}%`
                             }
                         }, {
                             price: {
